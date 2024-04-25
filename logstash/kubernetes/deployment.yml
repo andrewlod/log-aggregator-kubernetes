@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash-deployment
+  labels:
+    app: logstash
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+        - name: logstash
+          image: "$LOGSTASH_IMAGE_NAME"
+          ports:
+            - containerPort: 4000
+
+          env:
+            - name: BATCH_SIZE
+              value: "$BATCH_SIZE"
+            - name: BATCH_DELAY
+              value: "$BATCH_DELAY"
