@@ -1,6 +1,6 @@
 default: test
 
-RELEASE := helm-es-microk8s
+RELEASE := elasticsearch
 TIMEOUT := 1200s
 
 install:

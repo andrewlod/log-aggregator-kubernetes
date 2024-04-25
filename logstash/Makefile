@@ -1,6 +1,6 @@
 default: test
 
-RELEASE := helm-logstash-elasticsearch
+RELEASE := logstash
 TIMEOUT := 1200s
 
 install:
