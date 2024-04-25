@@ -1,0 +1,4 @@
+pipeline:
+  batch:
+    size: ${BATCH_SIZE}
+    delay: ${BATCH_DELAY:50}
