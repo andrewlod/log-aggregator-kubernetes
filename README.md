@@ -1,5 +1,5 @@
 # Log Aggregator for Kubernetes
-This project sets up the ELK stack in a Kubernetes cluster and indexes logs on Amazon S3 with ElasticSearch.
+This project sets up the ELK stack in a Kubernetes cluster and stores snapshots on Amazon S3 with ElasticSearch.
 
 ## Table of Contents
 - [Log Aggregator for Kubernetes](#log-aggregator-for-kubernetes)
@@ -26,7 +26,7 @@ This project sets up the ELK stack in a Kubernetes cluster and indexes logs on A
 
 ## Features
 - Stdout and file log collection from containers with FileBeat
-- Log indexing on Amazon S3
+- Amazon S3 Snapshot and Restore
 - Data querying
 - Data visualization
 
@@ -55,7 +55,8 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Integrate ElasticSearch with Amazon S3 | ❌ |
+| Integrate ElasticSearch with Amazon S3 Snapshot and Restore | 🚧 |
+| Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
 | Integrate ElasticSearch with AWS EKS | ❌ |
 
 ## Architecture
