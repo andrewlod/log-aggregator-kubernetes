@@ -22,18 +22,16 @@ roles:
   - transform
 
 replicas: 3
-minimumMasterNodes: 2
+minimumMasterNodes: 1
 
 esMajorVersion: ""
 
 # Allows you to add any config files in /usr/share/elasticsearch/config/
 # such as elasticsearch.yml and log4j2.properties
-esConfig: {}
-#  elasticsearch.yml: |
-#    key:
-#      nestedkey: value
-#  log4j2.properties: |
-#    key = value
+esConfig:
+  elasticsearch.yml: |
+    xpack.security.enabled: true
+    path.data: /usr/share/elasticsearch/data
 
 createCert: true
 
@@ -44,9 +42,12 @@ esJvmOptions: {}
 # Extra environment variables to append to this nodeGroup
 # This will be appended to the current 'env:' key. You can use any of the kubernetes env
 # syntax here
-extraEnvs: []
-#  - name: MY_ENVIRONMENT_VAR
-#    value: the_value_goes_here
+extraEnvs:
+ - name: ELASTIC_PASSWORD
+   valueFrom:
+    secretKeyRef:
+      name: elastic-config-credentials
+      key: password
 
 # Allows you to load environment variables from kubernetes secret or config map
 envFrom: []
@@ -55,19 +56,21 @@ envFrom: []
 # - configMapRef:
 #     name: config-map
 
+keystore:
+  - secretName: aws-s3-credentials
+
 # Disable it to use your own elastic-credential Secret.
 secret:
-  enabled: true
-  password: "" # generated randomly if not defined
+  enabled: false
 
 # A list of secrets and their paths to mount inside the pod
 # This is useful for mounting certificates for security and for mounting
 # the X-Pack license
 secretMounts: []
-#  - name: elastic-certificates
-#    secretName: elastic-certificates
-#    path: /usr/share/elasticsearch/config/certs
-#    defaultMode: 0755
+  # - name: elasticsearch-keystore
+  #   secretName: s3-credentials
+  #   path: /usr/share/elasticsearch/config/elasticsearch.keystore
+  #   subPath: elasticsearch.keystore 
 
 hostAliases: []
 #- ip: "127.0.0.1"
@@ -273,9 +276,6 @@ fullnameOverride: ""
 healthNameOverride: ""
 
 lifecycle: {}
-# preStop:
-#   exec:
-#     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 # postStart:
 #   exec:
 #     command:
@@ -283,19 +283,9 @@ lifecycle: {}
 #       - -c
 #       - |
 #         #!/bin/bash
-#         # Add a template to adjust number of shards/replicas
-#         TEMPLATE_NAME=my_template
-#         INDEX_PATTERN="logstash-*"
-#         SHARD_COUNT=8
-#         REPLICA_COUNT=1
-#         ES_URL=http://localhost:9200
-#         while [[ "$(curl -s -o /dev/null -w '%{http_code}\n' $ES_URL)" != "200" ]]; do sleep 1; done
-#         curl -XPUT "$ES_URL/_template/$TEMPLATE_NAME" -H 'Content-Type: application/json' -d'{"index_patterns":['\""$INDEX_PATTERN"\"'],"settings":{"number_of_shards":'$SHARD_COUNT',"number_of_replicas":'$REPLICA_COUNT'}}'
 
 sysctlInitContainer:
   enabled: true
-
-keystore: []
 
 networkPolicy:
   ## Enable creation of NetworkPolicy resources. Only Ingress traffic is filtered for now.
