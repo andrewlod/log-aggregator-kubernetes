@@ -15,12 +15,12 @@ daemonset:
     - name: "ELASTICSEARCH_USERNAME"
       valueFrom:
         secretKeyRef:
-          name: elasticsearch-master-credentials
+          name: elastic-config-credentials
           key: username
     - name: "ELASTICSEARCH_PASSWORD"
       valueFrom:
         secretKeyRef:
-          name: elasticsearch-master-credentials
+          name: elastic-config-credentials
           key: password
   # Allows you to add any config files in /usr/share/filebeat
   extraVolumes: []
@@ -93,12 +93,12 @@ deployment:
     - name: "ELASTICSEARCH_USERNAME"
       valueFrom:
         secretKeyRef:
-          name: elasticsearch-master-credentials
+          name: elastic-config-credentials
           key: username
     - name: "ELASTICSEARCH_PASSWORD"
       valueFrom:
         secretKeyRef:
-          name: elasticsearch-master-credentials
+          name: elastic-config-credentials
           key: password
   # Allows you to add any config files in /usr/share/filebeat
   extraVolumes: []

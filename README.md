@@ -8,7 +8,7 @@ This project sets up the ELK stack in a Kubernetes cluster and stores snapshots 
   - [Features](#features)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
-    - [Installing](#installing)
+    - [Installing (development only)](#installing-development-only)
   - [Setup](#setup)
     - [Development](#development)
     - [Production](#production)
@@ -37,12 +37,89 @@ This step describes the prerequisites and steps for setting up the ELK stack in 
 - Microk8s, minikube or another local Kubernetes provider with Kubectl (for local development)
 - Amazon Web Services account
 
-### Installing
-TODO: Describe installation steps
+### Installing (development only)
+First install any Kubernetes local cluster manager. The following example shows how to install Microk8s:
+```sh
+sudo snap install microk8s --classic
+```
+
+Then, download and install Kubectl:
+```sh
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
+
+If you are using Microk8s, link the host kubectl command to the microk8s cluster:
+```sh
+cd $HOME
+mkdir .kube
+cd .kube
+microk8s config > config
+```
+
+Then, enable the necessary addons:
+```sh
+microk8s enable ingress
+microk8s enable dns
+microk8s enable helm
+microk8s enable dashboard
+microk8s enable storage
+```
+
+Now you are ready to run the ELK stack in your local cluster!
 
 ## Setup
 ### Development
-TODO: Describe development setup steps
+First of all, make sure your local Kubernetes cluster is up and running. If you are using Microk8s, you can start it by running the following command:
+```sh
+microk8s start
+```
+
+Then, deploy ElasticSearch with the development configuration:
+```sh
+cd elasticsearch
+make  AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID_WITH_S3_ACCESS> \
+      AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY> \
+      ELASTICSEARCH_PASSWORD=<INSERT_ANY_ELASTICSEARCH_PASSWORD> \
+      install-dev
+cd ..
+```
+
+The next step is to dpeloy Logstash:
+```sh
+cd logstash
+make install
+cd ..
+```
+
+Now, dpeloy Filebeat:
+```sh
+cd filebeat
+make install
+cd ..
+```
+
+Before deploying Kibana, make sure the Nginx ingress controller is installed:
+```sh
+cd nginx
+make install
+cd ..
+```
+
+And lastly, deploy Kibana with the development configuration:
+```sh
+cd kibana
+make install-dev
+cd ..
+```
+
+An additional step is to port-forward ElasticSearch and Kibana services to your host machine so you can access them:
+```sh
+kubectl port-forward svc/elasticsearch-master 9200 --address=0.0.0.0
+kubectl port-forward svc/kibana-kibana 5601 --address=0.0.0.0
+```
 
 ### Production
 TODO: Describe production setup steps
@@ -55,9 +132,12 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Integrate ElasticSearch with Amazon S3 Snapshot and Restore | 🚧 |
-| Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
+| Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | ❌ |
+| Create GitHub action for EKS deployment | ❌ |
 | Integrate ElasticSearch with AWS EKS | ❌ |
+| Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
+| Create architecture diagram and add it to documentation | ❌ |
+| Record demo video of working logging solution on EKS and S3 | ❌ |
 
 ## Architecture
 TODO: Provide architecture diagram describing the solutions
