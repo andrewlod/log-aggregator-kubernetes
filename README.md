@@ -55,11 +55,11 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
-| Create Kibana prod values.yaml with alb ingress controller | ❌ |
+| Create Kibana prod values.yaml with alb ingress controller | 🚧 |
 | Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | ❌ |
 | Create GitHub action for EKS deployment | ❌ |
 | Integrate ElasticSearch with AWS EKS | ❌ |
+| Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
 | Create architecture diagram and add it to documentation | ❌ |
 | Record demo video of working logging solution on EKS and S3 | ❌ |
 
