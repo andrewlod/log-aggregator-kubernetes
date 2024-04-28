@@ -59,11 +59,62 @@ cd .kube
 microk8s config > config
 ```
 
+Then, enable the necessary addons:
+```sh
+microk8s enable ingress
+microk8s enable dns
+microk8s enable helm
+microk8s enable dashboard
+microk8s enable storage
+```
+
 Now you are ready to run the ELK stack in your local cluster!
 
 ## Setup
 ### Development
-TODO: Describe development setup steps
+First of all, make sure your local Kubernetes cluster is up and running. If you are using Microk8s, you can start it by running the following command:
+```sh
+microk8s start
+```
+
+Then, deploy ElasticSearch with the development configuration:
+```sh
+cd elasticsearch
+make  AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID_WITH_S3_ACCESS> \
+      AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY> \
+      ELASTICSEARCH_PASSWORD=<INSERT_ANY_ELASTICSEARCH_PASSWORD> \
+      install-dev
+cd ..
+```
+
+The next step is to dpeloy Logstash:
+```sh
+cd logstash
+make install
+cd ..
+```
+
+Now, dpeloy Filebeat:
+```sh
+cd filebeat
+make install
+cd ..
+```
+
+Before deploying Kibana, make sure the Nginx ingress controller is installed:
+```sh
+cd nginx
+make install
+cd ..
+```
+
+And lastly, deploy Kibana with the development configuration:
+```sh
+cd kibana
+make install-dev
+cd ..
+```
+
 
 ### Production
 TODO: Describe production setup steps
