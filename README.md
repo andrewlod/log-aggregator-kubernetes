@@ -8,7 +8,7 @@ This project sets up the ELK stack in a Kubernetes cluster and stores snapshots 
   - [Features](#features)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
-    - [Installing](#installing)
+    - [Installing (development only)](#installing-development-only)
   - [Setup](#setup)
     - [Development](#development)
     - [Production](#production)
@@ -37,8 +37,29 @@ This step describes the prerequisites and steps for setting up the ELK stack in 
 - Microk8s, minikube or another local Kubernetes provider with Kubectl (for local development)
 - Amazon Web Services account
 
-### Installing
-TODO: Describe installation steps
+### Installing (development only)
+First install any Kubernetes local cluster manager. The following example shows how to install Microk8s:
+```sh
+sudo snap install microk8s --classic
+```
+
+Then, download and install Kubectl:
+```sh
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
+
+If you are using Microk8s, link the host kubectl command to the microk8s cluster:
+```sh
+cd $HOME
+mkdir .kube
+cd .kube
+microk8s config > config
+```
+
+Now you are ready to run the ELK stack in your local cluster!
 
 ## Setup
 ### Development
