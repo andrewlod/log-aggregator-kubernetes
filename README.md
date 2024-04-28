@@ -115,6 +115,11 @@ make install-dev
 cd ..
 ```
 
+An additional step is to port-forward ElasticSearch and Kibana services to your host machine so you can access them:
+```sh
+kubectl port-forward svc/elasticsearch-master 9200 --address=0.0.0.0
+kubectl port-forward svc/kibana-kibana 5601 --address=0.0.0.0
+```
 
 ### Production
 TODO: Describe production setup steps
