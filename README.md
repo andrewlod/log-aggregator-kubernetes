@@ -55,9 +55,14 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Integrate ElasticSearch with Amazon S3 Snapshot and Restore | 🚧 |
 | Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
+| Create production values.yaml for elasticsearch | ❌ |
+| Create Kibana prod values.yaml with alb ingress controller | ❌ |
+| Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | ❌ |
+| Create GitHub action for EKS deployment | ❌ |
 | Integrate ElasticSearch with AWS EKS | ❌ |
+| Create architecture diagram and add it to documentation | ❌ |
+| Record demo video of working logging solution on EKS and S3 | ❌ |
 
 ## Architecture
 TODO: Provide architecture diagram describing the solutions
