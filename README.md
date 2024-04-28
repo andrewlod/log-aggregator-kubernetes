@@ -55,7 +55,6 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Create Kibana prod values.yaml with alb ingress controller | 🚧 |
 | Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | ❌ |
 | Create GitHub action for EKS deployment | ❌ |
 | Integrate ElasticSearch with AWS EKS | ❌ |
