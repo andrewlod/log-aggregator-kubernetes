@@ -1,2 +1,6 @@
 **/*/.env
+**/*/*.tfvars
+**/*/*tfplan*
+**/*/*.tfstate*
+terraform/.terraform
 elasticsearch/*.keystore
