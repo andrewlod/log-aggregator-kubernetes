@@ -132,7 +132,7 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | ❌ |
+| Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | 🚧 |
 | Create GitHub action for EKS deployment | ❌ |
 | Integrate ElasticSearch with AWS EKS | ❌ |
 | Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
