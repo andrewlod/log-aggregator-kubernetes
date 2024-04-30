@@ -14,3 +14,15 @@ resource "kubernetes_service_account" "main" {
   }
   automount_service_account_token = true
 }
+
+resource "kubernetes_secret" "elastic_config_credentials" {
+  metadata {
+    name      = "elastic-config-credentials"
+    namespace = var.k8s_namespace
+  } 
+
+  data = {
+    username = var.elasticsearch_username
+    password = var.elasticsearch_password
+  }
+}
