@@ -4,6 +4,7 @@ This project sets up the ELK stack in a Kubernetes cluster and stores snapshots 
 ## Table of Contents
 - [Log Aggregator for Kubernetes](#log-aggregator-for-kubernetes)
   - [Table of Contents](#table-of-contents)
+  - [Architecture](#architecture)
   - [Technologies](#technologies)
   - [Features](#features)
   - [Getting Started](#getting-started)
@@ -13,9 +14,11 @@ This project sets up the ELK stack in a Kubernetes cluster and stores snapshots 
     - [Development](#development)
     - [Production](#production)
   - [Work-in-progress](#work-in-progress)
-  - [Architecture](#architecture)
   - [Authors](#authors)
   - [License](#license)
+
+## Architecture
+![Log Aggregator Architecture](./assets/elk-diagram.png)
 
 ## Technologies
 - FileBeat - FileBeat collects logs from containers and sends them to Logstash
@@ -143,9 +146,6 @@ This section describes features that are either work-in-progress or will be impl
 | Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
 | Create architecture diagram and add it to documentation | ❌ |
 | Record demo video of working logging solution on EKS and S3 | ❌ |
-
-## Architecture
-TODO: Provide architecture diagram describing the solutions
 
 ## Authors
 - Andre Wlodkovski - [@andrewlod](https://github.com/andrewlod)
