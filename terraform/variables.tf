@@ -29,10 +29,22 @@ variable "eks_cluster_name" {
 variable "k8s_namespace" {
   type        = string
   description = "AWS EKS K8S namespace where ElasticSearch will be hosted"
-  default     = "default"
+  default     = "monitoring"
 }
 
 variable "bucket_name" {
   type        = string
   description = "AWS S3 bucket name to store ElasticSearch Snapshot and Restore data"
+}
+
+variable "elasticsearch_username" {
+  type        = string
+  description = "Username used to login on ElasticSearch and Kibana"
+  default     = "elastic"
+}
+
+variable "elasticsearch_password" {
+  type        = string
+  description = "Password to log on ElasticSearch and Kibana"
+  sensitive   = true
 }
