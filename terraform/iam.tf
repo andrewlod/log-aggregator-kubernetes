@@ -45,7 +45,7 @@ resource "aws_iam_role_policy" "elasticsearch_s3_policy" {
           "s3:ListBucketMultipartUploads",
           "s3:ListBucketVersions"
         ]
-        Resource = aws_s3_bucket.elasticsearch_s3_bucket.bucket
+        Resource = aws_s3_bucket.elasticsearch_s3_bucket.arn
       },
       {
         Effect = "Allow"
@@ -56,7 +56,7 @@ resource "aws_iam_role_policy" "elasticsearch_s3_policy" {
           "s3:AbortMultipartUpload",
           "s3:ListMultipartUploadParts"
         ]
-        Resource = "${aws_s3_bucket.elasticsearch_s3_bucket.bucket}/*"
+        Resource = "${aws_s3_bucket.elasticsearch_s3_bucket.arn}/*"
       }
     ]
   })

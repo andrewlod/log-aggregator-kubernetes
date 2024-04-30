@@ -1,10 +1,10 @@
 provider "helm" {
   kubernetes {
-    host                   = data.aws_eks_cluster.authentication_cluster.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.authentication_cluster.certificate_authority[0].data)
+    host                   = data.aws_eks_cluster.eks_cluster.endpoint
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster.certificate_authority[0].data)
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.authentication_cluster.id]
+      args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.eks_cluster.id]
       command     = "aws"
     }
   }
@@ -14,12 +14,11 @@ resource "helm_release" "elasticsearch" {
   name = "elasticsearch"
 
   repository = "https://helm.elastic.co"
-  chart      = "elastic/elasticsearch"
+  chart      = "elasticsearch"
   namespace  = var.k8s_namespace
-  version    = "8.5.1"
 
   values = [
-    "${file("${path.module}/../elasticsearch/values-prod.yml")}"
+    "${file("${path.module}/../elasticsearch/values-prod.yaml")}"
   ]
 
   set {
@@ -37,12 +36,11 @@ resource "helm_release" "kibana" {
   name = "kibana"
 
   repository = "https://helm.elastic.co"
-  chart      = "elastic/kibana"
+  chart      = "kibana"
   namespace  = var.k8s_namespace
-  version    = "8.5.1"
 
   values = [
-    "${file("${path.module}/../kibana/values-prod.yml")}"
+    "${file("${path.module}/../kibana/values-prod.yaml")}"
   ]
 
   depends_on = [
@@ -55,12 +53,11 @@ resource "helm_release" "logstash" {
   name = "logstash"
 
   repository = "https://helm.elastic.co"
-  chart      = "elastic/logstash"
+  chart      = "logstash"
   namespace  = var.k8s_namespace
-  version    = "8.5.1"
 
   values = [
-    "${file("${path.module}/../logstash/values.yml")}"
+    "${file("${path.module}/../logstash/values.yaml")}"
   ]
 
   depends_on = [
@@ -73,12 +70,11 @@ resource "helm_release" "filebeat" {
   name = "filebeat"
 
   repository = "https://helm.elastic.co"
-  chart      = "elastic/filebeat"
+  chart      = "filebeat"
   namespace  = var.k8s_namespace
-  version    = "8.5.1"
 
   values = [
-    "${file("${path.module}/../filebeat/values.yml")}"
+    "${file("${path.module}/../filebeat/values.yaml")}"
   ]
 
   depends_on = [
