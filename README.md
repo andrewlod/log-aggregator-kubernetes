@@ -77,6 +77,11 @@ First of all, make sure your local Kubernetes cluster is up and running. If you 
 microk8s start
 ```
 
+Add the Elastic Helm repository:
+```sh
+helm repo add elastic https://helm.elastic.co
+```
+
 Then, deploy ElasticSearch with the development configuration:
 ```sh
 cd elasticsearch
@@ -133,8 +138,8 @@ This section describes features that are either work-in-progress or will be impl
 | Feature | Status |
 |---------|--------|
 | Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | 🚧 |
-| Create GitHub action for EKS deployment | ❌ |
 | Integrate ElasticSearch with AWS EKS | ❌ |
+| Create GitHub action for EKS deployment | ❌ |
 | Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
 | Create architecture diagram and add it to documentation | ❌ |
 | Record demo video of working logging solution on EKS and S3 | ❌ |
