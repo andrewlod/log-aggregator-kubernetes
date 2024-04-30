@@ -144,7 +144,6 @@ This section describes features that are either work-in-progress or will be impl
 | Integrate ElasticSearch with AWS EKS | ❌ |
 | Create GitHub action for EKS deployment | ❌ |
 | Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
-| Create architecture diagram and add it to documentation | ❌ |
 | Record demo video of working logging solution on EKS and S3 | ❌ |
 
 ## Authors
