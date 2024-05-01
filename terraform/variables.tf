@@ -48,3 +48,14 @@ variable "elasticsearch_password" {
   description = "Password to log on ElasticSearch and Kibana"
   sensitive   = true
 }
+
+variable "private_subnets_name" {
+  type        = string
+  description = "Value of the 'Name' tag of private subnets"
+}
+
+variable "eks_instance_types" {
+  type        = list(string)
+  description = "List of instance types in the EKS Monitoring Node Group"
+  default     = [ "t3.micro" ]
+}
