@@ -27,6 +27,7 @@ resource "helm_release" "elasticsearch" {
   }
 
   depends_on = [
+    aws_eks_node_group.monitoring_node_group,
     kubernetes_secret.elastic_config_credentials,
     kubernetes_service_account.main
   ]
@@ -44,6 +45,7 @@ resource "helm_release" "kibana" {
   ]
 
   depends_on = [
+    aws_eks_node_group.monitoring_node_group,
     helm_release.elasticsearch,
     kubernetes_secret.elastic_config_credentials
   ]
@@ -61,6 +63,7 @@ resource "helm_release" "logstash" {
   ]
 
   depends_on = [
+    aws_eks_node_group.monitoring_node_group,
     helm_release.elasticsearch,
     kubernetes_secret.elastic_config_credentials
   ]
@@ -78,6 +81,7 @@ resource "helm_release" "filebeat" {
   ]
 
   depends_on = [
+    aws_eks_node_group.monitoring_node_group,
     helm_release.logstash,
     kubernetes_secret.elastic_config_credentials
   ]
