@@ -91,9 +91,6 @@ resources:
   requests:
     cpu: "100m"
     memory: "512Mi"
-  limits:
-    cpu: "1000m"
-    memory: "2Gi"
 
 initResources: {}
 # limits:
@@ -109,7 +106,7 @@ volumeClaimTemplate:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 30Gi
+      storage: 10Gi
 
 rbac:
   create: false
