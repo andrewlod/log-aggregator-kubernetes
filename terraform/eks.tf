@@ -24,3 +24,13 @@ resource "aws_eks_node_group" "monitoring_node_group" {
     aws_iam_role_policy_attachment.eks_node_worker_node_policy_attachment
   ]
 }
+
+resource "aws_eks_addon" "ebs_driver_addon" {
+  cluster_name = data.aws_eks_cluster.eks_cluster.name
+  addon_name   = "aws-ebs-csi-driver"
+
+  depends_on = [
+    aws_eks_node_group.monitoring_node_group,
+    aws_iam_role.ebs_csi_role
+  ]
+}
