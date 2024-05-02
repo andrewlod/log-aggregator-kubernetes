@@ -95,3 +95,36 @@ resource "aws_iam_role_policy_attachment" "eks_node_ecr_read_only_policy_attachm
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks_node_role.name
 }
+
+resource "aws_iam_role" "ebs_csi_role" {
+  name               = "eks-ebs-csi-role"
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRoleWithWebIdentity"
+      Effect = "Allow"
+      Principal = {
+        Federated = data.aws_iam_openid_connect_provider.oidc.arn
+      }
+      Condition = {
+        StringEquals = {
+          "${data.aws_iam_openid_connect_provider.oidc.url}:sub" = "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+          "${data.aws_iam_openid_connect_provider.oidc.url}:aud" = "sts.amazonaws.com"
+        }
+      }
+    }]
+    Version = "2012-10-17"
+  })
+
+  tags = {
+    "Environment"   = var.infra_env
+    "Name"          = "eks-ebs-csi-role"
+    "Project"       = "log-aggregator"
+    "ManagedBy"     = "terraform"
+    "Organization"  = "andrewlod"
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "ebs_csi_policy_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  role       = aws_iam_role.ebs_csi_role.name
+}

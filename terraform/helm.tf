@@ -28,6 +28,7 @@ resource "helm_release" "elasticsearch" {
 
   depends_on = [
     aws_eks_node_group.monitoring_node_group,
+    aws_eks_addon.ebs_driver_addon,
     kubernetes_secret.elastic_config_credentials,
     kubernetes_service_account.main
   ]
