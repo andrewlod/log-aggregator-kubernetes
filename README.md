@@ -13,6 +13,8 @@ This project sets up the ELK stack in a Kubernetes cluster and stores snapshots 
   - [Setup](#setup)
     - [Development](#development)
     - [Production](#production)
+      - [Running Terraform](#running-terraform)
+      - [Integrating with Amazon S3 Snapshot and Restore](#integrating-with-amazon-s3-snapshot-and-restore)
   - [Work-in-progress](#work-in-progress)
   - [Authors](#authors)
   - [License](#license)
@@ -130,7 +132,20 @@ kubectl port-forward svc/kibana-kibana 5601 --address=0.0.0.0
 ```
 
 ### Production
-TODO: Describe production setup steps
+Deployment to production to AWS can be done exclusively with Terraform. The Terraform scripts will provide the necessary infrastructure, IAM Roles and the Helm deployments of Kibana, ElasticSearch, Logstash and Filebeat. However, there are a couple necessary resources that are not deployed by the Terraform scripts, as it is assumed that the user already has these resources deployed:
+- AWS Elastic Kubernetes Service cluster **without Fargate Profiles**
+- Application Load Balancer Ingress Controller installed into the EKS cluster
+- AWS VPC with subnets
+
+The name of these resources must be specified as Terraform variables when deploying.
+
+#### Running Terraform
+Check the [instructions for running Terraform](./terraform/README.md) to deploy the ELK stack into your production cluster.
+
+Once the Terraform scripts have deployed the infrastructure, the ELK stack will be ready for ingesting logs and visualizing them through Kibana.
+
+#### Integrating with Amazon S3 Snapshot and Restore
+TODO: Describe Amazon S3 Snapshot and Restore steps on Kibana.
 
 ## Work-in-progress
 This section describes features that are either work-in-progress or will be implemented in the future. Features are sorted by priority.
@@ -141,8 +156,8 @@ This section describes features that are either work-in-progress or will be impl
 | Feature | Status |
 |---------|--------|
 | Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | 🚧 |
-| Integrate ElasticSearch with AWS EKS | ❌ |
-| Create GitHub action for EKS deployment | ❌ |
+| Integrate ElasticSearch with AWS EKS | 🚧 |
+| Finish tagging Terraform resources | ❌ |
 | Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
 | Record demo video of working logging solution on EKS and S3 | ❌ |
 
