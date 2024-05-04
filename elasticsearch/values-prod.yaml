@@ -21,8 +21,8 @@ roles:
   - remote_cluster_client
   - transform
 
-replicas: 3
-minimumMasterNodes: 2
+replicas: 2
+minimumMasterNodes: 1
 
 esMajorVersion: ""
 
@@ -140,24 +140,33 @@ persistence:
     enabled: false
   annotations: {}
 
-extraVolumes: []
-# - name: extras
-#   emptyDir: {}
+extraVolumes:
+  - name: symlink-aws-token-volume
+    emptyDir: {}
 
-extraVolumeMounts: []
-# - name: extras
-#   mountPath: /usr/share/extras
-#   readOnly: true
+extraVolumeMounts: 
+  - name: symlink-aws-token-volume
+    mountPath: /usr/share/elasticsearch/modules/repository-s3
 
 extraContainers: []
-# - name: do-something
-#   image: busybox
-#   command: ['do', 'something']
 
-extraInitContainers: []
-# - name: do-something
-#   image: busybox
-#   command: ['do', 'something']
+extraInitContainers:
+  - name: symlink-aws-token
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
+    command: 
+      - sh
+      - '-c'
+      - |
+        mkdir -p /usr/share/elasticsearch/modules/repository-s3
+        ln -s /var/run/secrets/eks.amazonaws.com/serviceaccount/token /usr/share/elasticsearch/modules/repository-s3/aws-web-identity-token-file
+        chown -R elasticsearch /usr/share/elasticsearch/modules/repository-s3
+    securityContext:
+      privileged: true
+      runAsUser: 0
+      allowPrivilegeEscalation: true
+    volumeMounts:
+      - name: symlink-aws-token-volume
+        mountPath: /tmp/aws-symlink
 
 # This is the PriorityClass settings as defined in
 # https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
@@ -169,7 +178,7 @@ antiAffinityTopologyKey: "kubernetes.io/hostname"
 
 # Hard means that by default pods will only be scheduled if there are enough nodes for them
 # and that they will never end up on the same node. Setting this to soft will do this "best effort"
-antiAffinity: "hard"
+antiAffinity: "soft"
 
 # This is the node affinity settings as defined in
 # https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#node-affinity-beta-feature
@@ -277,6 +286,8 @@ lifecycle: {}
 #       - -c
 #       - |
 #         #!/bin/bash
+#         mkdir -p modules/repository-s3
+#         ln -s $AWS_WEB_IDENTITY_TOKEN_FILE "modules/repository-s3/aws-web-identity-token-file"
 
 sysctlInitContainer:
   enabled: true

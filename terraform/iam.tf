@@ -74,6 +74,14 @@ resource "aws_iam_role" "eks_node_role" {
     }]
     Version = "2012-10-17"
   })
+
+  tags = {
+    "Environment"   = var.infra_env
+    "Name"          = "eks-node-role"
+    "Project"       = "log-aggregator"
+    "ManagedBy"     = "terraform"
+    "Organization"  = "andrewlod"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "eks_node_policy_attachment" {

@@ -15,6 +15,14 @@ resource "aws_eks_node_group" "monitoring_node_group" {
     max_unavailable = 1
   }
 
+  tags = {
+    "Environment"   = var.infra_env
+    "Name"          = "monitoring-node-group"
+    "Project"       = "log-aggregator"
+    "ManagedBy"     = "terraform"
+    "Organization"  = "andrewlod"
+  }
+
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
   depends_on = [
@@ -28,6 +36,14 @@ resource "aws_eks_node_group" "monitoring_node_group" {
 resource "aws_eks_addon" "ebs_driver_addon" {
   cluster_name = data.aws_eks_cluster.eks_cluster.name
   addon_name   = "aws-ebs-csi-driver"
+
+  tags = {
+    "Environment"   = var.infra_env
+    "Name"          = "aws-ebs-csi-driver"
+    "Project"       = "log-aggregator"
+    "ManagedBy"     = "terraform"
+    "Organization"  = "andrewlod"
+  }
 
   depends_on = [
     aws_eks_node_group.monitoring_node_group,
