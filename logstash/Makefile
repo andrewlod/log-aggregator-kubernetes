@@ -2,12 +2,13 @@ default: test
 
 RELEASE := logstash
 TIMEOUT := 1200s
+NAMESPACE := monitoring
 
 install:
-	microk8s helm upgrade --wait --timeout=$(TIMEOUT) --install --values values.yaml $(RELEASE) elastic/logstash
+	helm upgrade --wait --timeout=$(TIMEOUT) --install --values values.yaml -n $(NAMESPACE) $(RELEASE) elastic/logstash
 
 test: install goss
 
 purge:
-	microk8s helm del $(RELEASE)
-	microk8s kubectl delete $$(microk8s kubectl get pvc -l release=$(RELEASE) -o name)
+	helm del $(RELEASE) -n $(NAMESPACE)
+	kubectl delete $$(kubectl get pvc -l release=$(RELEASE) -o name) -n $(NAMESPACE)

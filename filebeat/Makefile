@@ -2,11 +2,12 @@ default: test
 
 RELEASE := filebeat
 TIMEOUT := 1200s
+NAMESPACE := monitoring
 
 install:
-	microk8s helm upgrade --wait --timeout=$(TIMEOUT) --install --values values.yaml $(RELEASE) elastic/filebeat
+	helm upgrade --wait --timeout=$(TIMEOUT) --install --values values.yaml -n $(NAMESPACE) $(RELEASE) elastic/filebeat
 
 test: install goss
 
 purge:
-	microk8s helm del $(RELEASE)
+	helm del $(RELEASE) -n $(NAMESPACE)

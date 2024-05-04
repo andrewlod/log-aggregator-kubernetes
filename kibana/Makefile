@@ -2,20 +2,25 @@ default: test
 
 RELEASE := kibana
 TIMEOUT := 1200s
+NAMESPACE := monitoring
 
 install-dev:
-	microk8s helm upgrade --wait --timeout=$(TIMEOUT) --install --values values-dev.yaml $(RELEASE) elastic/kibana
+	helm upgrade --wait --timeout=$(TIMEOUT) --install --values values-dev.yaml -n $(NAMESPACE) $(RELEASE) elastic/kibana
 
 install-prod:
-	microk8s helm upgrade --wait --timeout=$(TIMEOUT) --install --values values-prod.yaml $(RELEASE) elastic/kibana
+	helm upgrade --wait --timeout=$(TIMEOUT) --install --values values-prod.yaml -n $(NAMESPACE) $(RELEASE) elastic/kibana
 	
 purge:
-	microk8s kubectl delete configmap kibana-kibana-helm-scripts || true
-	microk8s kubectl delete serviceaccount pre-install-kibana-kibana || true
-	microk8s kubectl delete serviceaccount post-delete-kibana-kibana || true
-	microk8s kubectl delete roles pre-install-kibana-kibana || true
-	microk8s kubectl delete rolebindings pre-install-kibana-kibana || true
-	microk8s kubectl delete job pre-install-kibana-kibana || true
-	microk8s helm del $(RELEASE)
+	kubectl delete configmap kibana-kibana-helm-scripts -n $(NAMESPACE) || true
+	kubectl delete serviceaccount pre-install-kibana-kibana -n $(NAMESPACE) || true
+	kubectl delete serviceaccount post-delete-kibana-kibana -n $(NAMESPACE) || true
+	kubectl delete roles post-delete-kibana-kibana -n $(NAMESPACE) || true
+	kubectl delete roles pre-install-kibana-kibana -n $(NAMESPACE) || true
+	kubectl delete rolebindings post-delete-kibana-kibana -n $(NAMESPACE) || true
+	kubectl delete rolebindings pre-install-kibana-kibana -n $(NAMESPACE) || true
+	kubectl delete job post-delete-kibana-kibana -n $(NAMESPACE) || true
+	kubectl delete job pre-install-kibana-kibana -n $(NAMESPACE) || true
+	kubectl delete secret kibana-kibana-es-token -n $(NAMESPACE) || true
+	helm del $(RELEASE) -n $(NAMESPACE)
 	
 test: install goss
