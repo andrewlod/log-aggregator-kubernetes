@@ -155,9 +155,6 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Create Terraform script with EKS serviceaccount and IAM Role for ElasticSearch | 🚧 |
-| Integrate ElasticSearch with AWS EKS | 🚧 |
-| Finish tagging Terraform resources | ❌ |
 | Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
 | Record demo video of working logging solution on EKS and S3 | ❌ |
 
