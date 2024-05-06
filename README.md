@@ -145,7 +145,27 @@ Check the [instructions for running Terraform](./terraform/README.md) to deploy 
 Once the Terraform scripts have deployed the infrastructure, the ELK stack will be ready for ingesting logs and visualizing them through Kibana.
 
 #### Integrating with Amazon S3 Snapshot and Restore
-TODO: Describe Amazon S3 Snapshot and Restore steps on Kibana.
+Snapshot and Restore is an ElasticSearch feature that allows you to store snapshots of the ElasticSearch cluster in a supported storage solution for an eventual recovery. This project uses S3 as a Snapshot and Restore destination, and the instructions below will describe the steps to do so.
+
+First of all, make sure your ELK Stack is up and running in your Kubernetes cluster. If you haven't done so, please check the previous step to deploy the ELK Stack in EKS with Terraform.
+
+Then, access Kibana and log in with the username and password you configured and under **Management**, select **Stack Management**.
+
+Afterwards, select the **Snapshot and Restore** under the **Data** section.
+
+The next step is to click on **Repositories** and **Register a repository**. This should lead you to a form asking you repository name and type.
+
+Under **Repository name**, type any repository name you wish (this is not the name of the bucket, it is the name of the ElasticSearch bucket repository, it can by any name) and under **Repository type**, select AWS S3, then press **Next**.
+
+Under **Bucket**, paste the name of the S3 bucket created by Terraform. If you wish to send the snapshots to another bucket, make sure to tune the IAM Roles accordingly. You can specify other options such as chunk and buffer size, but these are optional.
+
+When you are ready, head to the end of the page and **Register** the repository. You can **Verify** the connection to the bucket after doing so.
+
+Now that the repository is registered, you must create a policy that will schedule snapshot creations. Select the **Policy** tab, give it a name, provide a name pattern (such as `<daily-snap-{now/d}>`), select the recently created repository and then set a schedule frequency.
+
+The next steps are to fine-tune your policy, such as selecting indexes and setting TTL for your snapshots. By default, all indexes are backed up.
+
+Done! Your first backup should start whenever the time matches with the frequency set on the Snapshot and Restore policy.
 
 ## Work-in-progress
 This section describes features that are either work-in-progress or will be implemented in the future. Features are sorted by priority.
@@ -155,7 +175,6 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Include documentation about setting up Amazon S3 Snapshot and Restore | ❌ |
 | Record demo video of working logging solution on EKS and S3 | ❌ |
 
 ## Authors
