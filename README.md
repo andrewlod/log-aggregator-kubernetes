@@ -186,4 +186,4 @@ This project is licensed under the [MIT License](https://opensource.org/license/
 ## Demo
 The video below demonstrates the ELK Stack deployed on an AWS EKS cluster with Terraform, and enabled the ElasticSearch Snapshot and Restore feature on AWS S3.
 
-[![Demo](https://img.youtube.com/fukLRv5d25Y/maxresdefault.jpg)](https://youtu.be/fukLRv5d25Y)
+[![Demo](https://img.youtube.com/vi/fukLRv5d25Y/maxresdefault.jpg)](https://youtu.be/fukLRv5d25Y)
