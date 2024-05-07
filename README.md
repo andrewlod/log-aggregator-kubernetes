@@ -18,6 +18,7 @@ This project sets up the ELK stack in a Kubernetes cluster and stores snapshots 
   - [Work-in-progress](#work-in-progress)
   - [Authors](#authors)
   - [License](#license)
+  - [Demo](#demo)
 
 ## Architecture
 ![Log Aggregator Architecture](./assets/elk-diagram.png)
@@ -175,10 +176,14 @@ This section describes features that are either work-in-progress or will be impl
 
 | Feature | Status |
 |---------|--------|
-| Record demo video of working logging solution on EKS and S3 | ❌ |
 
 ## Authors
 - Andre Wlodkovski - [@andrewlod](https://github.com/andrewlod)
 
 ## License
 This project is licensed under the [MIT License](https://opensource.org/license/mit) - see the [LICENSE](LICENSE) file for details.
+
+## Demo
+The video below demonstrates the ELK Stack deployed on an AWS EKS cluster with Terraform, and enabled the ElasticSearch Snapshot and Restore feature on AWS S3.
+
+[![Demo](https://img.youtube.com/fukLRv5d25Y/maxresdefault.jpg)](https://youtu.be/fukLRv5d25Y)
